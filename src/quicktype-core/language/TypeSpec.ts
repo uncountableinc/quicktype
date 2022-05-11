@@ -358,8 +358,18 @@ export class TypeSpecRenderer extends ConvenienceRenderer {
             _anyType => "JsonValue",
             _nullType => "None",
             _boolType => "Boolean",
-            _integerType => "Integer",
-            _doubletype => "Decimal",
+            _integerType => {
+                if (t.kind === "string") {
+                    return "LossyDecimal";
+                }
+                return "Integer";
+            },
+            _doubletype => {
+                if (t.kind === "string") {
+                    return "LossyDecimal";
+                }
+                return "Decimal";
+            },
             _stringType => "String",
             arrayType => [this.withTyping("List"), "<", this.typespecType(arrayType.items), ">"],
             classType => this.namedType(classType),
