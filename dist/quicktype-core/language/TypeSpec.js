@@ -256,7 +256,7 @@ class TypeSpecRenderer extends ConvenienceRenderer_1.ConvenienceRenderer {
                 return "LossyDecimal";
             }
             return "Decimal";
-        }, _stringType => "String", arrayType => [this.withTyping("List"), "<", this.typespecType(arrayType.items), ">"], classType => this.namedType(classType), mapType => [this.withTyping("Dict"), "<str, ", this.typespecType(mapType.values), ">"], enumType => this.namedType(enumType), unionType => {
+        }, _stringType => "String", arrayType => [this.withTyping("List"), "<", this.typespecType(arrayType.items), ">"], classType => this.namedType(classType), mapType => [this.withTyping("Dict"), "<String, ", this.typespecType(mapType.values), ">"], enumType => this.namedType(enumType), unionType => {
             const maybeNullable = TypeUtils_1.nullableFromUnion(unionType);
             if (maybeNullable !== null) {
                 let rest = [];

@@ -373,7 +373,7 @@ export class TypeSpecRenderer extends ConvenienceRenderer {
             _stringType => "String",
             arrayType => [this.withTyping("List"), "<", this.typespecType(arrayType.items), ">"],
             classType => this.namedType(classType),
-            mapType => [this.withTyping("Dict"), "<str, ", this.typespecType(mapType.values), ">"],
+            mapType => [this.withTyping("Dict"), "<String, ", this.typespecType(mapType.values), ">"],
             enumType => this.namedType(enumType),
             unionType => {
                 const maybeNullable = nullableFromUnion(unionType);
