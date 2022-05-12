@@ -125,7 +125,7 @@ export const typespecOptions = {
         ],
         "3.7"
     ),
-    justTypes: new BooleanOption("just-types", "Classes only", false),
+    justTypes: new BooleanOption("just-types", "Classes only", true),
     nicePropertyNames: new BooleanOption("nice-property-names", "Transform property names to be TypeSpecionic", true)
 };
 

@@ -76,9 +76,9 @@ exports.pythonOptions = {
         ["3.5", { version: 3, typeHints: false, dataClasses: false }],
         ["3.6", { version: 3, typeHints: true, dataClasses: false }],
         ["3.7", { version: 3, typeHints: true, dataClasses: true }]
-    ], "3.6"),
-    justTypes: new RendererOptions_1.BooleanOption("just-types", "Classes only", false),
-    nicePropertyNames: new RendererOptions_1.BooleanOption("nice-property-names", "Transform property names to be Pythonic", true),
+    ], "3.7"),
+    justTypes: new RendererOptions_1.BooleanOption("just-types", "Classes only", true),
+    nicePropertyNames: new RendererOptions_1.BooleanOption("nice-property-names", "Transform property names to be Pythonic", true)
 };
 class PythonTargetLanguage extends TargetLanguage_1.TargetLanguage {
     getOptions() {
@@ -717,7 +717,14 @@ class JSONPythonRenderer extends PythonRenderer {
         };
         if (xfer instanceof Transformers_1.DecodingChoiceTransformer || xfer instanceof Transformers_1.ChoiceTransformer) {
             const lambdas = xfer.transformers.map(x => makeLambda(this.transformer(identity, x, targetType)).source);
-            return compose(inputTransformer, v => [this.conv("union"), "([", collection_utils_1.arrayIntercalate(", ", lambdas), "], ", v, ")"]);
+            return compose(inputTransformer, v => [
+                this.conv("union"),
+                "([",
+                collection_utils_1.arrayIntercalate(", ", lambdas),
+                "], ",
+                v,
+                ")"
+            ]);
         }
         else if (xfer instanceof Transformers_1.DecodingTransformer) {
             const consumer = xfer.consumer;
@@ -803,7 +810,10 @@ class JSONPythonRenderer extends PythonRenderer {
             ", ",
             v,
             ")"
-        ]), classType => compose(value, { lambda: Source_1.singleWord(this.nameForNamedType(classType), ".from_dict"), value: undefined }), mapType => compose(value, v => [
+        ]), classType => compose(value, {
+            lambda: Source_1.singleWord(this.nameForNamedType(classType), ".from_dict"),
+            value: undefined
+        }), mapType => compose(value, v => [
             this.conv("dict"),
             "(",
             makeLambda(this.deserializer(identity, mapType.values)).source,
@@ -813,7 +823,14 @@ class JSONPythonRenderer extends PythonRenderer {
         ]), enumType => compose(value, { lambda: Source_1.singleWord(this.nameForNamedType(enumType)), value: undefined }), unionType => {
             // FIXME: handle via transformers
             const deserializers = Array.from(unionType.members).map(m => makeLambda(this.deserializer(identity, m)).source);
-            return compose(value, v => [this.conv("union"), "([", collection_utils_1.arrayIntercalate(", ", deserializers), "], ", v, ")"]);
+            return compose(value, v => [
+                this.conv("union"),
+                "([",
+                collection_utils_1.arrayIntercalate(", ", deserializers),
+                "], ",
+                v,
+                ")"
+            ]);
         }, transformedStringType => {
             // FIXME: handle via transformers
             if (transformedStringType.kind === "date-time") {
@@ -847,7 +864,14 @@ class JSONPythonRenderer extends PythonRenderer {
             ")"
         ]), enumType => compose(value, v => [this.conv("to-enum"), "(", this.nameForNamedType(enumType), ", ", v, ")"]), unionType => {
             const serializers = Array.from(unionType.members).map(m => makeLambda(this.serializer(identity, m)).source);
-            return compose(value, v => [this.conv("union"), "([", collection_utils_1.arrayIntercalate(", ", serializers), "], ", v, ")"]);
+            return compose(value, v => [
+                this.conv("union"),
+                "([",
+                collection_utils_1.arrayIntercalate(", ", serializers),
+                "], ",
+                v,
+                ")"
+            ]);
         }, transformedStringType => {
             if (transformedStringType.kind === "date-time") {
                 return compose(value, v => [v, ".isoformat()"]);

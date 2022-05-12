@@ -77,7 +77,7 @@ exports.typespecOptions = {
         ["3.6", { version: 3, typeHints: true, dataClasses: false }],
         ["3.7", { version: 3, typeHints: true, dataClasses: true }]
     ], "3.7"),
-    justTypes: new RendererOptions_1.BooleanOption("just-types", "Classes only", false),
+    justTypes: new RendererOptions_1.BooleanOption("just-types", "Classes only", true),
     nicePropertyNames: new RendererOptions_1.BooleanOption("nice-property-names", "Transform property names to be TypeSpecionic", true)
 };
 class TypeSpecTargetLanguage extends TargetLanguage_1.TargetLanguage {
