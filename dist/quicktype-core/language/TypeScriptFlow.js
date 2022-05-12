@@ -10,7 +10,7 @@ const JavaScript_1 = require("./JavaScript");
 const Support_1 = require("../support/Support");
 const JavaScriptUnicodeMaps_1 = require("./JavaScriptUnicodeMaps");
 exports.tsFlowOptions = Object.assign({}, JavaScript_1.javaScriptOptions, {
-    justTypes: new RendererOptions_1.BooleanOption("just-types", "Interfaces only", false),
+    justTypes: new RendererOptions_1.BooleanOption("just-types", "Interfaces only", true),
     nicePropertyNames: new RendererOptions_1.BooleanOption("nice-property-names", "Transform property names to be JavaScripty", false),
     declareUnions: new RendererOptions_1.BooleanOption("explicit-unions", "Explicitly name unions", false),
     preferUnions: new RendererOptions_1.BooleanOption("prefer-unions", "Use union type instead of enum", false)
@@ -211,7 +211,7 @@ class TypeScriptRenderer extends TypeScriptFlowBaseRenderer {
         this.emitDescription(this.descriptionForType(e));
         if (this._tsFlowOptions.preferUnions) {
             let items = "";
-            e.cases.forEach((item) => {
+            e.cases.forEach(item => {
                 if (items === "") {
                     items += `"${Strings_1.utf16StringEscape(item)}"`;
                     return;
