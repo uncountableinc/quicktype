@@ -18,7 +18,7 @@ import { RenderContext } from "../Renderer";
 import { isES3IdentifierStart } from "./JavaScriptUnicodeMaps";
 
 export const tsFlowOptions = Object.assign({}, javaScriptOptions, {
-    justTypes: new BooleanOption("just-types", "Interfaces only", false),
+    justTypes: new BooleanOption("just-types", "Interfaces only", true),
     nicePropertyNames: new BooleanOption("nice-property-names", "Transform property names to be JavaScripty", false),
     declareUnions: new BooleanOption("explicit-unions", "Explicitly name unions", false),
     preferUnions: new BooleanOption("prefer-unions", "Use union type instead of enum", false)
@@ -89,7 +89,6 @@ function quotePropertyName(original: string): string {
 }
 
 export abstract class TypeScriptFlowBaseRenderer extends JavaScriptRenderer {
-
     constructor(
         targetLanguage: TargetLanguage,
         renderContext: RenderContext,
@@ -280,7 +279,7 @@ export class TypeScriptRenderer extends TypeScriptFlowBaseRenderer {
 
         if (this._tsFlowOptions.preferUnions) {
             let items = "";
-            e.cases.forEach((item) => {
+            e.cases.forEach(item => {
                 if (items === "") {
                     items += `"${utf16StringEscape(item)}"`;
                     return;
